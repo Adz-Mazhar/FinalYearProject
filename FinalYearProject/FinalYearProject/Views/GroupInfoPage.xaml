@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:FinalYearProject.Controls"
+             xmlns:viewmodels="clr-namespace:FinalYearProject.ViewModels.Pages"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="FinalYearProject.Views.GroupInfoPage"
+             x:DataType="viewmodels:GroupInfoPageViewModel"
+             Title="{Binding Title}"
+             IconImageSource="infoicon.png">
+
+    <Grid
+        RowDefinitions="*, 75">
+        <controls:TitledLayout
+            Grid.Row="0"
+            Title="{Binding GroupName}"
+            TitleMargin="20,30,20,15">
+            <Grid
+                RowDefinitions="Auto, 10, *"
+                VerticalOptions="FillAndExpand">
+
+                <Label 
+                    Grid.Row="0"
+                    Text="{Binding GroupDescription}" 
+                    FontSize="Large"
+                    HorizontalTextAlignment="Center" />
+
+            </Grid>
+        </controls:TitledLayout>
+
+        <Button
+            Grid.Row="1"
+            Text="Go To Reports"
+            Style="{StaticResource buttonStyle}"
+            Command="{Binding GoToReportsCommand}" 
+            IsVisible="{Binding IsOwner}"
+            Margin="5,0,5,5"/>
+    </Grid>
+</ContentPage>

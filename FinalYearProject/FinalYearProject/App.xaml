@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<prism:PrismApplication 
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:FinalYearProject.Controls"
+    xmlns:prism="http://prismlibrary.com"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    x:Class="FinalYearProject.App">
+
+    <Application.Resources>
+        <!-- Implicit Styles -->
+        <Style
+            TargetType="NavigationPage">
+            <Setter Property="BarBackgroundColor" Value="Black"/>
+        </Style>
+
+        <Style
+            TargetType="Label">
+            <Setter Property="FontFamily" Value="OpenSans" />
+        </Style>
+
+        <Style
+            TargetType="Button">
+            <Setter Property="FontFamily" Value="OpenSans" />
+        </Style>
+
+        <Style
+            TargetType="Entry">
+            <Setter Property="FontFamily" Value="OpenSans" />
+        </Style>
+
+        <Style
+            TargetType="Editor">
+            <Setter Property="FontFamily" Value="OpenSans" />
+        </Style>
+
+        <Style
+            TargetType="xct:AvatarView">
+            <Setter Property="FontFamily" Value="OpenSans" />
+        </Style>
+
+        <Style
+            TargetType="controls:UserInputLayout">
+            <Setter Property="ButtonHeightRequest" Value="75" />
+        </Style>
+
+        <Style 
+            TargetType="ContentPage"
+            ApplyToDerivedTypes="True">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush>
+                        <GradientStop 
+                            Color="CornflowerBlue"
+                            Offset="0.1" />
+                        <GradientStop 
+                            Color="White"
+                            Offset="1.0" />
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--Explicit Styles -->
+        <Style
+            x:Key="buttonStyle"
+            TargetType="Button">
+            <Setter Property="BackgroundColor" Value="Teal" />
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="CornerRadius" Value="50" />
+        </Style>
+
+        <Style
+            x:Key="backButtonStyle"
+            TargetType="Button"
+            BasedOn="{StaticResource buttonStyle}">
+            <Setter Property="BackgroundColor" Value="DarkGray" />
+        </Style>
+
+        <Style
+            x:Key="titleStyle"
+            TargetType="Label">
+            <Setter Property="FontSize" Value="40"/>
+            <Setter Property="TextColor" Value="Black"/>
+            <Setter Property="HorizontalTextAlignment" Value="Center" />
+        </Style>
+
+        <Style
+            x:Key="errorLabelStyle"
+            TargetType="Label">
+            <Setter Property="TextColor" Value="Red" />
+            <Setter Property="FontSize" Value="18" />
+        </Style>
+
+        <Style
+            x:Key="customFrameStyle"
+            TargetType="Frame">
+            <Setter Property="BorderColor" Value="Teal" />
+            <Setter Property="CornerRadius" Value="30" />
+            <Setter Property="Padding" Value="15,8" />
+        </Style>
+
+        <!-- Control Templates -->
+        <ControlTemplate
+            x:Key="settingsLabelTemplate">
+            <Frame
+                Style="{StaticResource customFrameStyle}"
+                BackgroundColor="White"
+                Padding="15">
+
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{TemplateBinding Command}" />
+                </Frame.GestureRecognizers>
+
+                <Grid
+                    ColumnDefinitions="Auto, *"
+                    HorizontalOptions="Center">
+                    <Image
+                        Grid.Column="0"
+                        Source="editicon.png"
+                        Aspect="AspectFit" 
+                        WidthRequest="50"/>
+
+                    <Label
+                        Grid.Column="1"
+                        Text="{TemplateBinding Text}"
+                        FontSize="15"
+                        VerticalTextAlignment="Center" />
+                </Grid>
+            </Frame>
+        </ControlTemplate>
+    </Application.Resources>
+</prism:PrismApplication>

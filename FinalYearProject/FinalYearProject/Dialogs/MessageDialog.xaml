@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:FinalYearProject.Controls"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             prism:DialogLayout.CloseOnBackgroundTapped="True"
+             BackgroundColor="Transparent"
+             x:Class="FinalYearProject.Dialogs.MessageDialog">
+
+    <controls:DialogLayout
+        Title="{Binding Title}"
+        TitleBackgroundColour="Teal"
+        TitleTextColour="White"
+        CloseCommand="{Binding CloseCommand}">
+
+        <Label
+            Text="{Binding Message}"
+            HorizontalTextAlignment="Center"
+            VerticalTextAlignment="Center" 
+            Margin="20,5"/>
+    </controls:DialogLayout>
+</ContentView>

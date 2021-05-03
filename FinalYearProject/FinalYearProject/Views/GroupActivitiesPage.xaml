@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:FinalYearProject.Controls"
+             xmlns:converters="clr-namespace:FinalYearProject.Converters"
+             xmlns:models="clr-namespace:FinalYearProject.Models"
+             xmlns:viewmodels="clr-namespace:FinalYearProject.ViewModels.Pages"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="FinalYearProject.Views.GroupActivitiesPage"
+             x:DataType="viewmodels:GroupActivitiesPageViewModel"
+             Title="{Binding Title}"
+             IconImageSource="activitiesicon.png">
+
+    <ContentPage.Resources>
+        <converters:HexToColourConverter x:Key="hexToColourConverter" />
+        <converters:DateTimeToStringConverter x:Key="dateTimeToStringConverter" />
+    </ContentPage.Resources>
+
+    <Grid
+        RowDefinitions="*, 75">
+
+        <RefreshView 
+            IsRefreshing="{Binding IsRefreshing}"
+            Command="{Binding RefreshCommand}">
+            <CollectionView
+                Grid.Row="0"
+                x:Name="activitiesCollectionView"
+                x:DataType="{x:Null}"
+                Margin="10,0"
+                ItemsSource="{Binding Activities}"
+                IsGrouped="True"
+                SelectionMode="None"
+                SelectedItem="{Binding SelectedActivity}"
+                EmptyView="No activities yet! Create one!">
+
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout 
+                        Orientation="Vertical" 
+                        ItemSpacing="5"/>
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.GroupHeaderTemplate>
+                    <DataTemplate>
+                        <Grid
+                            Margin="0,10">
+                            <Frame
+                                CornerRadius="30"
+                                BackgroundColor="LightBlue"
+                                Padding="15,13"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center">
+                                <Label
+                                    Text="{Binding Name}"
+                                    FontSize="Large"
+                                    HorizontalTextAlignment="Center"/>
+                            </Frame>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.GroupHeaderTemplate>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="{x:Type models:Activity}">
+                        <Grid Padding="10,0,10,0">
+                            <Grid HorizontalOptions="Center">
+                                <Frame
+                                    BorderColor="Black"
+                                    CornerRadius="20">
+
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer 
+                                            Command="{Binding BindingContext.ActivityTapCommand, 
+                                                              Source={x:Reference activitiesCollectionView}}"
+                                            CommandParameter="{Binding}"/>
+                                    </Frame.GestureRecognizers>
+
+                                    <Grid
+                                        RowDefinitions="65, *, *">
+                                        <Image
+                                            Grid.Row="0"
+                                            Source="groupactivityicon.png" />
+                                        
+                                        <Label 
+                                            Grid.Row="1"
+                                            Text="{Binding CreatorInfo.Username}"
+                                            FontAttributes="Bold"
+                                            TextColor="Black"
+                                            TextDecorations="Underline"
+                                            HorizontalTextAlignment="Center"/>
+
+                                        <Label 
+                                            Grid.Row="2"
+                                            Text="{Binding Title}"
+                                            TextColor="Black"
+                                            HorizontalTextAlignment="Center"/>
+                                    </Grid>
+                                </Frame>
+                            </Grid>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+
+        <Button 
+            Grid.Row="1"
+            Style="{StaticResource buttonStyle}"
+            Text="New Activity"
+            Command="{Binding NewActivityCommand}"
+            Margin="5,0,5,5"/>
+
+        <controls:LoadingView 
+            Grid.RowSpan="2"
+            IsVisible="{Binding IsBusy}" />
+    </Grid>
+</ContentPage>

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "65422868615",
+    "firebase_url": "https://final-year-project-a4e69-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "final-year-project-a4e69",
+    "storage_bucket": "final-year-project-a4e69.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:65422868615:android:6b8476ab9e8f2a71eeb822",
+        "android_client_info": {
+          "package_name": "com.companyname.FinalYearProject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "65422868615-9dkdmvh7s879hmp0oju52vqmv6khst21.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCB9i3sIMelPclFsUWUxeOlrwguJISnPvI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "65422868615-9dkdmvh7s879hmp0oju52vqmv6khst21.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "65422868615-7nacge6n74q80lgct1alfajefsgh2429.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.company.finalyearproject"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

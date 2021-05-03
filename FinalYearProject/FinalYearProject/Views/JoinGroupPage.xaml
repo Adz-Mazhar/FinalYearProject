@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:FinalYearProject.Controls"
+             xmlns:converters="clr-namespace:FinalYearProject.Converters"
+             xmlns:models="clr-namespace:FinalYearProject.Models"
+             xmlns:viewmodels="clr-namespace:FinalYearProject.ViewModels.Pages"
+             xmlns:vmHelpers="clr-namespace:FinalYearProject.ViewModels.Helpers"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="FinalYearProject.Views.JoinGroupPage"
+             x:DataType="viewmodels:JoinGroupPageViewModel"
+             NavigationPage.HasNavigationBar="False">
+
+    <ContentPage.Resources>
+        <converters:EnumToStringConverter x:Key="enumToStringConverter" />
+    </ContentPage.Resources>
+
+    <controls:TitledLayout
+        Title="All Groups"
+        TitleMargin="20,50,20,30">
+        <Grid
+            RowDefinitions="Auto, 10, *, 75">
+
+            <Picker 
+                x:Name="categoryPicker"
+                Grid.Row="0"
+                Title="Categories"
+                TitleColor="Black"
+                ItemsSource="{Binding Categories}"
+                Margin="50,0">
+
+                <Picker.Behaviors>
+                    <prism:EventToCommandBehavior 
+                        EventName="SelectedIndexChanged"
+                        Command="{Binding SelectCategoryCommand}"
+                        CommandParameter="{Binding SelectedIndex, Source={x:Reference categoryPicker}}" />
+                </Picker.Behaviors>
+            </Picker>
+
+            <CollectionView
+                x:Name="categoryCollectionView"
+                Grid.Row="2"
+                x:DataType="{x:Null}"
+                ItemsSource="{Binding Groups}"
+                Margin="20,0"
+                EmptyView="No groups to display! Create one!">
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="{x:Type models:Group}">
+                        <Frame
+                            BorderColor="Black"
+                            Margin="5">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer 
+                                    Command="{Binding BindingContext.SelectGroupCommand, 
+                                                        Source={x:Reference categoryCollectionView}}" 
+                                    CommandParameter="{Binding}"/>
+                            </Frame.GestureRecognizers>
+                            <Grid
+                                RowDefinitions="Auto, Auto">
+                                <Label 
+                                    Grid.Row="0"
+                                    Text="{Binding Name}"
+                                    TextColor="Black" 
+                                    FontAttributes="Bold"
+                                    TextDecorations="Underline"
+                                    HorizontalTextAlignment="Center"/>
+                                <Label
+                                    Grid.Row="1"
+                                    Text="{Binding Description}"
+                                    TextColor="Gray" 
+                                    HorizontalTextAlignment="Center"/>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Button 
+                Grid.Row="3"
+                Text="Back"
+                Style="{StaticResource backButtonStyle}"
+                Command="{Binding CloseCommand}"
+                Margin="5,0,5,5"/>
+        </Grid>
+    </controls:TitledLayout>
+</ContentPage>

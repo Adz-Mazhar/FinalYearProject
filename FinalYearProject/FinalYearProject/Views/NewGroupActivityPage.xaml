@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:FinalYearProject.Controls"
+             xmlns:viewmodels="clr-namespace:FinalYearProject.ViewModels.Pages"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="FinalYearProject.Views.NewGroupActivityPage"
+             x:DataType="viewmodels:NewGroupActivityPageViewModel"
+             NavigationPage.HasNavigationBar="False">
+
+    <controls:UserInputLayout
+        Title="New Activity"
+        ButtonText="Create"
+        ButtonCommand="{Binding CreateActivityCommand}"
+        BackButtonCommand="{Binding CloseCommand}">
+        <StackLayout>
+            <controls:CustomEntryView
+                Placeholder="Activity Title"
+                Text="{Binding ActivityTitle}" />
+
+            <BoxView 
+                BackgroundColor="Transparent" 
+                HeightRequest="5"/>
+
+            <Label 
+                Text="End Date" 
+                TextTransform="Uppercase"
+                HorizontalOptions="Center"/>
+            
+            <Frame
+                Style="{StaticResource customFrameStyle}">
+                <DatePicker 
+                    Date="{Binding Date}"
+                    MinimumDate="{x:Static system:DateTime.Today}"/>
+            </Frame>
+
+            <Label 
+                Text="End Time" 
+                TextTransform="Uppercase"
+                HorizontalOptions="Center"/>
+
+            <Frame
+                Style="{StaticResource customFrameStyle}">
+                <TimePicker 
+                    Time="{Binding Time}"/>
+            </Frame>
+        </StackLayout>
+    </controls:UserInputLayout>
+</ContentPage>

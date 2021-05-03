@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:FinalYearProject.Controls"
+             xmlns:converters="clr-namespace:FinalYearProject.Converters"
+             xmlns:models="clr-namespace:FinalYearProject.Models"
+             xmlns:viewmodels="clr-namespace:FinalYearProject.ViewModels.Pages"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="FinalYearProject.Views.PostDetailsPage"
+             x:DataType="viewmodels:PostDetailsPageViewModel"
+             Title="Post Details">
+
+    <ContentPage.Resources>
+        <converters:HexToColourConverter x:Key="hexToColourConverter" />
+        <converters:TimestampToDateAndTimeConverter x:Key="timeStampConverter" />
+    </ContentPage.Resources>
+    
+    <Grid
+        RowDefinitions="Auto, Auto, *, 75"
+        RowSpacing="0">
+        <controls:PostView
+            Grid.Row="0"
+            AvatarUsername="{Binding Post.SenderInfo.Username}"
+            AvatarColour="{Binding Post.SenderInfo.ProfileColourHex, Converter={StaticResource hexToColourConverter}}"
+            Timestamp="{Binding Post.SentAt, Converter={x:StaticResource timeStampConverter}}"
+            PostText="{Binding Post.Text}"
+            IsLikedByUser="{Binding Post.IsLikedByUser}"
+            LikeCount="{Binding Post.LikedBy.Count}"
+            ReplyCount="{Binding Post.ReplyCount}"
+            UpdateLikeCommand="{Binding UpdatePostLikeCommand}"
+            ReportCommand="{Binding ReportCommand}"/>
+
+        <Label 
+            Grid.Row="1" 
+            Text="Replies"
+            TextColor="White"
+            TextTransform="Uppercase"
+            BackgroundColor="Teal"
+            HorizontalTextAlignment="Center"
+            Padding="10"/>
+
+        <CollectionView
+            Grid.Row="2"
+            x:Name="replyCollectionView"
+            ItemsSource="{Binding Replies}"
+            EmptyView="No replies yet!">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="{x:Type models:Reply}">
+                    <controls:PostView
+                        AvatarUsername="{Binding SenderInfo.Username}"
+                        AvatarColour="{Binding SenderInfo.ProfileColourHex, Converter={StaticResource hexToColourConverter}}"
+                        Timestamp="{Binding SentAt, Converter={x:StaticResource timeStampConverter}}"
+                        PostText="{Binding Text}"
+                        IsLikedByUser="{Binding IsLikedByUser}"
+                        LikeCount="{Binding LikedBy.Count}"
+                        HasReplyIcon="False"
+                        UpdateLikeCommand="{Binding BindingContext.UpdateReplyLikeCommand, 
+                                            Source={x:Reference replyCollectionView}}"
+                        UpdateLikeCommandParameter="{Binding}"
+                        ReportCommand="{Binding BindingContext.ReportCommand, 
+                                        Source={x:Reference replyCollectionView}}"
+                        ReportCommandParameter="{Binding}"/>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Button 
+            Grid.Row="3"
+            Style="{StaticResource buttonStyle}"
+            Text="New Reply"
+            Command="{Binding AddReplyCommand}"
+            Margin="5,0,5,5"/>
+    </Grid>
+</ContentPage>

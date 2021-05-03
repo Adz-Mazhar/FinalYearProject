@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FinalYearProject.Controls.DialogLayout">
+    <ContentView.ControlTemplate>
+        <ControlTemplate>
+            <Frame
+                CornerRadius="25"
+                Padding="0"
+                Margin="10,0">
+                <Grid
+                    RowDefinitions="Auto, *, Auto"
+                    BackgroundColor="White">
+                    <Label 
+                        Grid.Row="0"
+                        Text="{TemplateBinding Title}"
+                        FontSize="25"
+                        TextColor="{TemplateBinding TitleTextColour}"
+                        BackgroundColor="{TemplateBinding TitleBackgroundColour}"
+                        Padding="10"
+                        HorizontalTextAlignment="Center"
+                        VerticalTextAlignment="Center"/>
+
+                    <ContentPresenter 
+                        Grid.Row="1"/>
+
+                    <Grid
+                        Grid.Row="2"
+                        RowDefinitions="1, Auto"
+                        IsVisible="{TemplateBinding ShowOptionBar}"
+                        Margin="0,10,0,0">
+                        <BoxView
+                            Grid.Row="0"
+                            BackgroundColor="{TemplateBinding TitleBackgroundColour}" 
+                            Margin="10,0"/>
+
+                        <Button
+                            Grid.Row="1"
+                            Command="{TemplateBinding CloseCommand}"
+                            Text="Ok"
+                            TextColor="Black"
+                            BackgroundColor="Transparent"
+                            HorizontalOptions="End" 
+                            IsVisible="{TemplateBinding ShowOptionBar}"/>
+                    </Grid>
+
+                    
+                </Grid>
+            </Frame>
+        </ControlTemplate>
+    </ContentView.ControlTemplate>
+</ContentView>

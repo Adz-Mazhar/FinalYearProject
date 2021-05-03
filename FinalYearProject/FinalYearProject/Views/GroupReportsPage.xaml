@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:FinalYearProject.Controls"
+             xmlns:models="clr-namespace:FinalYearProject.Models"
+             xmlns:viewmodels="clr-namespace:FinalYearProject.ViewModels.Pages"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="FinalYearProject.Views.GroupReportsPage"
+             x:DataType="viewmodels:GroupReportsPageViewModel"
+             NavigationPage.HasNavigationBar="False">
+    
+    <ContentPage.Resources>
+        <Style x:Key="frameStyle" TargetType="Frame">
+            <Setter Property="CornerRadius" Value="20" />
+            <Setter Property="Padding" Value="10" />
+        </Style>
+    </ContentPage.Resources>
+    
+    <controls:TitledLayout
+        Title="{Binding Title}"
+        TitleMargin="20,30,20,15">
+        <Grid
+            RowDefinitions="*, 75"
+            xct:StateLayout.CurrentState="{Binding CurrentState}">
+            <xct:StateLayout.StateViews>
+                <xct:StateView StateKey="Loading">
+                    <controls:LoadingView
+                        Grid.RowSpan="2"
+                        IsVisible="True" />
+                </xct:StateView>
+            </xct:StateLayout.StateViews>
+
+            <CollectionView
+                Grid.Row="0"
+                x:Name="reportsCollectionView"
+                ItemsSource="{Binding MessageReports}"
+                EmptyView="No reports!"
+                x:DataType="{x:Null}"
+                Margin="20,0">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout
+                        Orientation="Vertical"
+                        ItemSpacing="10" />
+                </CollectionView.ItemsLayout>
+                
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <xct:Expander>
+                            <xct:Expander.Header>
+                                <Frame
+                                    BackgroundColor="Black"
+                                    BorderColor="White">
+                                    <Label 
+                                        Text="{Binding SenderUsername}" 
+                                        TextColor="White"
+                                        FontAttributes="Bold"
+                                        HorizontalTextAlignment="Center"/>
+                                </Frame>
+                            </xct:Expander.Header>
+
+                            <Frame
+                                BorderColor="Black">
+                                <Grid RowDefinitions="*, 10, 75">
+                                    <StackLayout
+                                        Grid.Row="0"
+                                        BindableLayout.ItemsSource="{Binding}">
+                                        <BindableLayout.ItemTemplate>
+                                            <DataTemplate x:DataType="{x:Type models:MessageReport}">
+                                                <Frame
+                                                    BackgroundColor="LightBlue"
+                                                    Style="{StaticResource frameStyle}">
+                                                    <StackLayout>
+                                                        <Label
+                                                            Text="Message"
+                                                            TextColor="Black"
+                                                            TextDecorations="Underline"
+                                                            HorizontalTextAlignment="Center"/>
+                                                        
+                                                        <Label Text="{Binding Message.Text}" />
+
+                                                        <Label
+                                                            Text="Description" 
+                                                            TextColor="Black"
+                                                            TextDecorations="Underline"
+                                                            HorizontalTextAlignment="Center"/>
+                                                        
+                                                        <Label Text="{Binding Description}" />
+                                                    </StackLayout>
+                                                </Frame>
+                                            </DataTemplate>
+                                        </BindableLayout.ItemTemplate>
+                                    </StackLayout>
+
+                                    <Grid
+                                        Grid.Row="2"
+                                        ColumnDefinitions="*, *">
+
+                                        <Button 
+                                            Grid.Column="0"
+                                            Text="Ban User"
+                                            Command="{Binding BindingContext.BanCommand, 
+                                                                Source={x:Reference reportsCollectionView}}"
+                                            CommandParameter="{Binding}"
+                                            BackgroundColor="Red"
+                                            Style="{StaticResource buttonStyle}"/>
+                                        <Button 
+                                            Grid.Column="1"
+                                            Text="Remove All"
+                                            Command="{Binding BindingContext.RemoveAllReportsFromUserCommand, 
+                                                              Source={x:Reference reportsCollectionView}}"
+                                            CommandParameter="{Binding}"
+                                            Style="{StaticResource buttonStyle}"/>
+                                    </Grid>
+                                </Grid>
+                            </Frame>
+                        </xct:Expander>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Button 
+                Grid.Row="1"
+                Text="Back"
+                Style="{StaticResource backButtonStyle}"
+                Command="{Binding CloseCommand}"
+                Margin="5,0,5,5"/>
+
+        </Grid>
+    </controls:TitledLayout>
+</ContentPage>

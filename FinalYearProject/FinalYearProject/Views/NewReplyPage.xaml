@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:FinalYearProject.Controls"
+             xmlns:viewmodels="clr-namespace:FinalYearProject.ViewModels.Pages"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="FinalYearProject.Views.NewReplyPage"
+             x:DataType="viewmodels:NewReplyPageViewModel"
+             NavigationPage.HasNavigationBar="False">
+    
+    <controls:UserInputLayout
+        Title="New Reply"
+        ButtonText="Add"
+        ButtonCommand="{Binding AddReplyCommand}"
+        BackButtonCommand="{Binding CloseCommand}">
+        <StackLayout>
+            <controls:CustomEditorView
+                Placeholder="Reply Text"
+                Text="{Binding ReplyText}" 
+                MaxLines="5"
+                IsExpandable="True"/>
+        </StackLayout>
+    </controls:UserInputLayout>
+</ContentPage>

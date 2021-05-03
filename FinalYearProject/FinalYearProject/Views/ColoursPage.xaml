@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:FinalYearProject.Controls"
+             xmlns:viewmodels="clr-namespace:FinalYearProject.ViewModels.Pages"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="FinalYearProject.Views.ColoursPage"
+             x:DataType="viewmodels:ColoursPageViewModel"
+             NavigationPage.HasNavigationBar="False">
+
+    <controls:TitledLayout
+        Title="Pick a colour"
+        TitleMargin="0,30,0,10">
+        <Grid
+            RowDefinitions="Auto, *, 75">
+
+            <SearchBar
+                Grid.Row="0"
+                Text="{Binding SearchText}"
+                Placeholder="Search colour" />
+
+            <CollectionView
+                x:Name="colourCollectionView"
+                Grid.Row="1"
+                ItemsSource="{Binding Colours}"
+                SelectionMode="Single"
+                SelectionChangedCommand="{Binding SelectColourCommand}"
+                SelectionChangedCommandParameter="{Binding SelectedItem, Source={x:Reference colourCollectionView}}">
+
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout
+                        Orientation="Vertical"
+                        Span="2" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="{x:Null}">
+                        <StackLayout>
+                            <Label
+                                Text="{Binding Name}"
+                                HorizontalTextAlignment="Center" >
+                            </Label>
+                            <BoxView 
+                                BackgroundColor="{Binding Colour}" 
+                                HeightRequest="75" />
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Button 
+                Grid.Row="2"
+                Text="Back"
+                Style="{StaticResource backButtonStyle}"
+                Command="{Binding CloseCommand}"
+                Margin="5,0,5,5"/>
+        </Grid>
+    </controls:TitledLayout>
+</ContentPage>

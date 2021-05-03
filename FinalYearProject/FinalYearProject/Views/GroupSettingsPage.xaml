@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:FinalYearProject.Controls"
+             xmlns:viewmodels="clr-namespace:FinalYearProject.ViewModels.Pages"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="FinalYearProject.Views.GroupSettingsPage"
+             x:DataType="viewmodels:GroupSettingsPageViewModel"
+             Title="{Binding Title}"
+             IconImageSource="settingsicon.png">
+
+    <Grid>
+        <controls:TitledLayout
+            Grid.Row="0"
+            Title="Group"
+            TitleMargin="0,30,0,20">
+            <Grid
+                RowDefinitions="*"
+                Margin="5,0">
+                <Grid 
+                    Grid.Row="0"
+                    RowDefinitions="*, *">
+
+                    <controls:CustomLabel 
+                        Grid.Row="0"
+                        Text="Change Group Name"
+                        Command="{Binding ChangeGroupNameCommand}" 
+                        ControlTemplate="{StaticResource settingsLabelTemplate}"/>
+
+                    <controls:CustomLabel 
+                        Grid.Row="1"
+                        Text="Change Group Description"
+                        Command="{Binding ChangeGroupNameCommand}" 
+                        ControlTemplate="{StaticResource settingsLabelTemplate}"/>
+                </Grid>
+            </Grid>
+        </controls:TitledLayout>
+    </Grid>
+</ContentPage>

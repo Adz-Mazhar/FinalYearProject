@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:FinalYearProject.Controls"
+             xmlns:dialogs="clr-namespace:FinalYearProject.Dialogs"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             prism:DialogLayout.CloseOnBackgroundTapped="True"
+             x:Class="FinalYearProject.Dialogs.ConfirmationDialog"
+             BackgroundColor="Transparent"
+             x:Name="this">
+
+    <controls:DialogLayout
+        Title="{Binding Title}"
+        TitleBackgroundColour="Red"
+        TitleTextColour="White"
+        CloseCommand="{Binding CloseCommand}"
+        ShowOptionBar="False">
+
+        <StackLayout
+            Orientation="Horizontal"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            HeightRequest="150">
+            <controls:LabelledImage 
+                Title="Yes"
+                ImageSource="tickicon.png"
+                BorderColour="Transparent"
+                Command="{Binding ChooseOptionCommand}"
+                CommandParameter="{x:Static dialogs:ConfirmationDialogOptions.Yes}" 
+                ImageHeightRequest="75"
+                ImageWidthRequest="75"/>
+
+            <controls:LabelledImage 
+                Title="No"
+                ImageSource="redcrossicon.png"
+                BorderColour="Transparent"
+                Command="{Binding ChooseOptionCommand}"
+                CommandParameter="{x:Static dialogs:ConfirmationDialogOptions.No}" 
+                ImageHeightRequest="75"
+                ImageWidthRequest="75"/>
+        </StackLayout>
+    </controls:DialogLayout>
+</ContentView>

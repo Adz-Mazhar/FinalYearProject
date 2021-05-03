@@ -1,0 +1,222 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:FinalYearProject.Controls"
+             xmlns:converters="clr-namespace:FinalYearProject.Converters"
+             xmlns:helpers="clr-namespace:FinalYearProject.Helpers"
+             xmlns:models="clr-namespace:FinalYearProject.Models"
+             xmlns:viewmodels="clr-namespace:FinalYearProject.ViewModels.Pages"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="FinalYearProject.Views.GroupChatPage"
+             x:DataType="viewmodels:GroupChatPageViewModel"
+             Title="{Binding Title}"
+             IconImageSource="chaticon.png">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="frameStyle" TargetType="Frame">
+                <Setter Property="CornerRadius" Value="20" />
+                <Setter Property="Padding" Value="10" />
+            </Style>
+
+            <converters:HexToColourConverter x:Key="hexToColourConverter" />
+            <converters:TimestampToHourMinuteConverter x:Key="timeStampConverter" />
+
+            <DataTemplate 
+                x:Key="incomingDataTemplate"
+                x:DataType="{x:Type models:Message}">
+                <Grid Padding="10,3,80,3">
+                    <Grid
+                        ColumnDefinitions="Auto, Auto">
+                        <controls:UserAvatarView
+                            Grid.Column="0"
+                            Colour="{Binding SenderInfo.ProfileColourHex, Converter={StaticResource hexToColourConverter}}" 
+                            Size="40"
+                            VerticalOptions="Start"
+                            Margin="0,5,0,0"/>
+
+                        <Frame 
+                            Grid.Column="1"
+                            BackgroundColor="LightBlue"
+                            HorizontalOptions="Start"
+                            Style="{StaticResource frameStyle}">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer 
+                                    Command="{Binding BindingContext.MessageTapCommand, 
+                                                      Source={x:Reference messageCollectionView}}"
+                                    CommandParameter="{Binding}"/>
+                            </Frame.GestureRecognizers>
+                            
+                            <Grid
+                                RowDefinitions="Auto, 5, *"
+                                RowSpacing="0">
+                                <Label  
+                                    Grid.Row="0"
+                                    Text="{Binding SenderInfo.Username}"
+                                    FontAttributes="Bold" 
+                                    TextColor="Black"/>
+
+                                <Grid
+                                    Grid.Row="2"
+                                    ColumnDefinitions="*,Auto">
+                                    <Label 
+                                        Grid.Column="0"
+                                        Text="{Binding Text}" />
+
+                                    <Label
+                                        Grid.Column="1"
+                                        Text="{Binding SentAt, Converter={x:StaticResource timeStampConverter}}"
+                                        FontSize="Micro"
+                                        VerticalOptions="End"
+                                        HorizontalOptions="End" />
+                                </Grid>
+                            </Grid>
+                        </Frame>
+                    </Grid>
+                </Grid>
+
+            </DataTemplate>
+            <DataTemplate 
+                x:Key="outgoingDataTemplate"
+                x:DataType="{x:Type models:Message}">
+                <Grid>
+                    <Frame
+                        BackgroundColor="LightGreen"
+                        HorizontalOptions="End"
+                        Margin="100,3,10,3"
+                        Style="{StaticResource frameStyle}">
+                        <Grid
+                            ColumnDefinitions="*,Auto">
+                            <Label 
+                                Grid.Column="0"
+                                Text="{Binding Text}" />
+                            <Label 
+                                Grid.Column="1"
+                                Text="{Binding SentAt, Converter={x:StaticResource timeStampConverter}}"
+                                FontSize="10"
+                                HorizontalOptions="End"
+                                VerticalOptions="End"/>
+                        </Grid>
+                    </Frame>
+                </Grid>
+            </DataTemplate>
+            
+            <DataTemplate 
+                x:Key="systemDataTemplate" 
+                x:DataType="{x:Type models:Message}">
+                <Grid>
+                    <Frame
+                        BackgroundColor="LightPink"
+                        Style="{StaticResource frameStyle}"
+                        HorizontalOptions="Center"
+                        Margin="50,3,50,3">
+                        <Grid ColumnDefinitions="50, *">
+                            <Image
+                                Grid.Column="0"
+                                Source="smileicon.png"
+                                Aspect="AspectFit"/>
+                            <Label 
+                                Grid.Column="1"
+                                Text="{Binding Text}"/>
+                        </Grid>
+                    </Frame>
+                </Grid>
+            </DataTemplate>
+            
+            <helpers:MessageTemplateSelector 
+                x:Key="MessageTemplateSelector"
+                IncomingDataTemplate="{StaticResource incomingDataTemplate}"
+                OutgoingDataTemplate="{StaticResource outgoingDataTemplate}"
+                SystemDataTemplate="{StaticResource systemDataTemplate}"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid
+        HorizontalOptions="Center"
+        VerticalOptions="Center">
+
+        <!--<xct:StateLayout.StateViews>
+            <xct:StateView StateKey="Loading">
+                <controls:LoadingView
+                        Grid.RowSpan="2"
+                        IsVisible="True" />
+            </xct:StateView>
+        </xct:StateLayout.StateViews>-->
+        <Grid
+            RowDefinitions="*, Auto"
+            RowSpacing="0"
+            ColumnSpacing="0">
+            <RefreshView
+                IsRefreshing="{Binding IsRefreshing}"
+                Command="{Binding RefreshCommand}">
+                <controls:CustomCollectionView
+                    Grid.Row="0"
+                    x:Name="messageCollectionView"
+                    x:DataType="{x:Null}"
+                    ItemsSource="{Binding DisplayedMessages}"
+                    ItemTemplate="{StaticResource MessageTemplateSelector}"
+                    IsGrouped="True"
+                    ItemsUpdatingScrollMode="KeepScrollOffset"
+                    VerticalOptions="FillAndExpand">
+
+                    <CollectionView.GroupHeaderTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Frame
+                                    BackgroundColor="LightGray"
+                                    CornerRadius="20"
+                                    Padding="10"
+                                    Margin="0,5,0,5"
+                                    HorizontalOptions="Center">
+                                    <Label
+                                        Text="{Binding Date}"
+                                        FontSize="13"
+                                        HorizontalTextAlignment="Center" 
+                                        HorizontalOptions="Center"/>
+                                </Frame>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.GroupHeaderTemplate>
+                </controls:CustomCollectionView>
+            </RefreshView>
+
+            <Grid
+                Grid.Row="1"
+                ColumnDefinitions="*, Auto"
+                BackgroundColor="Transparent"
+                Margin="5">
+
+                <Frame
+                    Grid.Column="0"
+                    BorderColor="Black"
+                    CornerRadius="30"
+                    Padding="7, 2">
+                    <controls:ExpandableEditor
+                        Text="{Binding MessageInput}"
+                        TextColor="Black"
+                        Placeholder="Type a message"
+                        PlaceholderColor="LightGray"
+                        IsExpandable="True"
+                        MaxLines="5"
+                        Margin="1"
+                        Keyboard="Chat"
+                        HorizontalOptions="FillAndExpand" />
+                </Frame>
+
+                <ImageButton
+                    Grid.Column="1"
+                    Source="sendicon.png"
+                    BackgroundColor="Teal"
+                    Aspect="AspectFit"
+                    WidthRequest="50"
+                    HeightRequest="50"
+                    CornerRadius="25"
+                    Padding="15"
+                    Command="{Binding SendMessageCommand}" 
+                    VerticalOptions="End" />
+            </Grid>
+        </Grid>
+    </Grid>
+</ContentPage>

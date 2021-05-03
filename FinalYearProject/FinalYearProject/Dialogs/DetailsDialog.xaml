@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:FinalYearProject.Controls"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             prism:DialogLayout.CloseOnBackgroundTapped="True"
+             BackgroundColor="Transparent"
+             x:Class="FinalYearProject.Dialogs.DetailsDialog">
+    <controls:DialogLayout
+        Title="Details"
+        TitleBackgroundColour="Black"
+        TitleTextColour="White"
+        CloseCommand="{Binding CloseCommand}">
+
+        <Grid
+            ColumnDefinitions="Auto, 20, *"
+            Margin="10, 0">
+            <StackLayout
+                Grid.Column="0"
+                BindableLayout.ItemsSource="{Binding Properties}">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                        <Label Text="{Binding}" TextColor="Black"/>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </StackLayout>
+
+            <StackLayout
+                Grid.Column="2"
+                BindableLayout.ItemsSource="{Binding Values}">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                        <Label Text="{Binding}" TextColor="Black"/>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </StackLayout>
+        </Grid>
+        
+    </controls:DialogLayout>
+</ContentView>

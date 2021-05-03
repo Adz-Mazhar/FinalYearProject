@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:FinalYearProject.Controls"
+             x:Class="FinalYearProject.Controls.PostView"
+             x:Name="this">
+
+    <ContentView.Resources>
+        <Style
+            TargetType="controls:LabelledImage">
+            <Setter Property="ImageHeightRequest" Value="30" />
+            <Setter Property="ImageWidthRequest" Value="30" />
+            <Setter Property="BoxPadding" Value="0" />
+            <Setter Property="BorderColour" Value="Transparent" />
+        </Style>
+    </ContentView.Resources>
+    <Frame 
+        BindingContext="{x:Reference this}"
+        BorderColor="Black">
+        <StackLayout>
+            <Grid
+                ColumnDefinitions="Auto, *, Auto"
+                ColumnSpacing="10">
+                <controls:UserAvatarView
+                    Grid.Column="0"
+                    Colour="{Binding AvatarColour}" 
+                    Size="40"
+                    VerticalOptions="Start"/>
+
+                <Label 
+                    Grid.Column="1"
+                    Text="{Binding AvatarUsername}"
+                    VerticalOptions="Center"
+                    TextColor="Black"
+                    FontAttributes="Bold"/>
+
+                <Label
+                    Grid.Column="2"
+                    Text="{Binding Timestamp}"
+                    FontSize="Micro"
+                    HorizontalOptions="End" />
+            </Grid>
+
+            <Label 
+                Text="{Binding PostText}"
+                TextColor="Black"/>
+
+            <StackLayout
+                Orientation="Horizontal"
+                Spacing="20"
+                HorizontalOptions="End">
+                
+                <controls:LabelledImage
+                    Title="{Binding LikeCount}"
+                    ImageSource="replyicon.png"
+                    Command="{Binding UpdateLikeCommand}"
+                    CommandParameter="{Binding UpdateLikeCommandParameter}">
+                    <controls:LabelledImage.Triggers>
+                        <DataTrigger 
+                            TargetType="controls:LabelledImage"
+                            Binding="{Binding IsLikedByUser}"
+                            Value="True">
+                            <Setter Property="ImageSource" Value="filledhearticon.png" />
+                        </DataTrigger>
+
+                        <DataTrigger 
+                            TargetType="controls:LabelledImage"
+                            Binding="{Binding IsLikedByUser}"
+                            Value="False">
+                            <Setter Property="ImageSource" Value="emptyhearticon.png" />
+                        </DataTrigger>
+                    </controls:LabelledImage.Triggers>
+                </controls:LabelledImage>
+
+                <controls:LabelledImage
+                    Title="{Binding ReplyCount}"
+                    ImageSource="replyicon.png"
+                    Command="{Binding ReplyCommand}"
+                    CommandParameter="{Binding ReplyCommandParameter}"
+                    IsVisible="{Binding HasReplyIcon}"/>
+
+                <ImageButton
+                    Source="flagicon.png"
+                    Command="{Binding ReportCommand}"
+                    CommandParameter="{Binding ReportCommandParameter}"
+                    Aspect="AspectFit"
+                    BackgroundColor="Transparent"
+                    VerticalOptions="Start"
+                    HeightRequest="30"/>
+            </StackLayout>
+        </StackLayout>
+    </Frame>
+</ContentView>

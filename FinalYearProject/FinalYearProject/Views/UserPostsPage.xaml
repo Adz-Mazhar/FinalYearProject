@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:FinalYearProject.Controls"
+             xmlns:converters="clr-namespace:FinalYearProject.Converters"
+             xmlns:models="clr-namespace:FinalYearProject.Models"
+             xmlns:viewmodels="clr-namespace:FinalYearProject.ViewModels.Pages"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="FinalYearProject.Views.UserPostsPage"
+             x:DataType="viewmodels:UserPostsPageViewModel"
+             NavigationPage.HasNavigationBar="False">
+    
+    <ContentPage.Resources>
+        <converters:HexToColourConverter x:Key="hexToColourConverter" />
+        <converters:TimestampToDateAndTimeConverter x:Key="timeStampConverter" />
+    </ContentPage.Resources>
+
+    <Grid
+        RowDefinitions="*, 75">
+
+        <CollectionView
+            x:Name="postCollectionView"
+            ItemsSource="{Binding Posts}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="{x:Type models:Post}">
+                    <controls:PostView
+                        AvatarUsername="{Binding SenderInfo.Username}"
+                        AvatarColour="{Binding SenderInfo.ProfileColourHex, Converter={StaticResource hexToColourConverter}}"
+                        Timestamp="{Binding SentAt, Converter={x:StaticResource timeStampConverter}}"
+                        PostText="{Binding Text}"
+                        IsLikedByUser="{Binding IsLikedByUser}"
+                        LikeCount="{Binding LikedBy.Count}"
+                        ReplyCount="{Binding ReplyCount}"
+                        UpdateLikeCommand="{Binding BindingContext.UpdateLikeCommand, 
+                                            Source={x:Reference postCollectionView}}"
+                        UpdateLikeCommandParameter="{Binding}"
+                        ReplyCommand="{Binding BindingContext.ReplyCommand, 
+                                            Source={x:Reference postCollectionView}}"
+                        ReplyCommandParameter="{Binding}"
+                        ReportCommand="{Binding BindingContext.ReportCommand, 
+                                            Source={x:Reference postCollectionView}}"
+                        ReportCommandParameter="{Binding}">
+                        <controls:PostView.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{Binding BindingContext.ReplyCommand, 
+                                            Source={x:Reference postCollectionView}}"
+                                CommandParameter="{Binding}" />
+                        </controls:PostView.GestureRecognizers>
+                    </controls:PostView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Button 
+            Grid.Row="1"
+            Style="{StaticResource buttonStyle}"
+            Text="Back"
+            Command="{Binding CloseCommand}"
+            Margin="5,0,5,5"/>
+    </Grid>
+</ContentPage>

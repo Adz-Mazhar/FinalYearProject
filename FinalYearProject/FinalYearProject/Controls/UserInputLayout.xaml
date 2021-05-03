@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:FinalYearProject.Controls"
+             x:Class="FinalYearProject.Controls.UserInputLayout">
+
+    <ContentView.ControlTemplate>
+        <ControlTemplate>
+            <controls:TitledLayout
+                Title="{TemplateBinding Title}"
+                TitleMargin="{TemplateBinding TitleMargin}">
+                <Grid
+                    RowDefinitions="*, 10, Auto"
+                    RowSpacing="10"
+                    Margin="20,0">
+                    <ContentPresenter
+                        Grid.Row="0" />
+
+                    <Grid 
+                        Grid.Row="2"
+                        ColumnDefinitions="*, *"
+                        HeightRequest="{TemplateBinding ButtonHeightRequest}">
+                        <Button 
+                            Grid.Column="0"
+                            Text="Back"
+                            Command="{TemplateBinding BackButtonCommand}"
+                            CommandParameter="{TemplateBinding BackButtonCommandParameter}"
+                            Style="{StaticResource backButtonStyle}" />
+                        
+                        <Button
+                            Grid.Column="1"
+                            Text="{TemplateBinding ButtonText}"
+                            Style="{StaticResource buttonStyle}"
+                            Command="{TemplateBinding ButtonCommand}" 
+                            CommandParameter="{TemplateBinding ButtonCommandParameter}"/>
+                    </Grid>
+                    
+                </Grid>
+            </controls:TitledLayout>
+        </ControlTemplate>
+    </ContentView.ControlTemplate>
+</ContentView>

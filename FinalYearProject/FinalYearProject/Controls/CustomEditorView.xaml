@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Frame xmlns="http://xamarin.com/schemas/2014/forms" 
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:controls="clr-namespace:FinalYearProject.Controls"
+       x:Class="FinalYearProject.Controls.CustomEditorView"
+       Style="{StaticResource customFrameStyle}"
+       x:Name="this">
+    
+    <controls:ExpandableEditor
+        x:Name="editor"
+        BindingContext="{x:Reference this}"
+        Text="{Binding Text}"
+        Placeholder="{Binding Placeholder}"
+        IsExpandable="{Binding IsExpandable}"
+        MaxLines="{Binding MaxLines}" />
+</Frame>

@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:FinalYearProject.Controls"
+             xmlns:viewmodels="clr-namespace:FinalYearProject.ViewModels.Dialogs"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             prism:DialogLayout.CloseOnBackgroundTapped="True"
+             x:Class="FinalYearProject.Dialogs.OptionsDialog"
+             BackgroundColor="Transparent">
+
+    <controls:DialogLayout
+        Title="Options"
+        TitleBackgroundColour="Teal"
+        TitleTextColour="White"
+        CloseCommand="{Binding CloseCommand}"
+        ShowOptionBar="False">
+
+        <StackLayout
+            Grid.Row="1"
+            Orientation="Horizontal"
+            BindableLayout.ItemsSource="{Binding Options}"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            Padding="5,0">
+            <BindableLayout.ItemTemplate>
+                <DataTemplate>
+                    <controls:LabelledImage 
+                        Title="{Binding Name}"
+                        ImageSource="{Binding ImageSource}"
+                        BorderColour="Transparent"
+                        Command="{Binding ChooseOptionCommand, 
+                                            Source={RelativeSource AncestorType={x:Type viewmodels:OptionsDialogViewModel}}}"
+                        CommandParameter="{Binding}"
+                        ImageHeightRequest="75"
+                        ImageWidthRequest="75"/>
+                </DataTemplate>
+            </BindableLayout.ItemTemplate>
+        </StackLayout>
+    </controls:DialogLayout>
+</ContentView>
